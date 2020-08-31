@@ -8,6 +8,22 @@ use Illuminate\Support\Facades\Validator;
 
 class OrdersController extends Controller
 {
+    public function show(){
+        $data_order = Orders::join('customer', 'customer.id_customer', 'orders.id_customer')->get();
+        return Response()->json($data_order);
+    }
+    public function detail($id_orders){
+        if(Order::where('id_orders',$id_orders)->exist()) {
+            $data_order = Order::join('customer','customer.id_customer', 'orders.id_customer')
+                                      ->where('orders.id_customer',"=", $id_orders)
+                                      ->get();
+            return Response()->json($data_order);
+        }
+        else{
+            return Response()->json(['message' => 'Tidak ditemukan']);
+        }
+    }
+
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),
