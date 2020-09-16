@@ -64,4 +64,12 @@ class CustomerController extends Controller
             return Response()->json(['status' => 0]);
         }
     }
+    public function destroy($id_customer){
+        $hapus = Customer::where('id_customer',$id_customer)->delete();
+        if($hapus) {
+            return Response()->json(['status' => 1]);
+        } else{
+            return Response()->json(['status' => 0]);
+        }
+    }
 }
